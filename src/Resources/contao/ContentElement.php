@@ -46,21 +46,6 @@ class ApiContentElement extends AugmentedContaoModel
             }
             $this->subForm = $formModel;
         }
-        if ($this->type === 'ce_ort_iconnavigation') {
-            $iconBoxes = empty($this->model->iconBoxes) ? [] : unserialize($this->model->iconBoxes);
-            foreach ($iconBoxes as $i => $box) {
-                if ($box['image']) {
-                    $iconBoxes[$i]['image'] = (new File($box['image'], null))->toJson();
-                }
-            }
-            $this->iconBoxes = array_map(function ($item) {
-                return [
-                    'title' => $item['title'],
-                    'text' => $item['text'],
-                    'image' => $item['image'],
-                ];
-            }, $iconBoxes);
-        }
     }
 
     /**

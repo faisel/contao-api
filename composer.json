@@ -1,5 +1,5 @@
 {
-  "name": "pppl/contao-content-api-bundle",
+  "name": "dieschittigs/contao-content-api-bundle",
   "description": "Access Contao content via an easy to use JSON-API",
   "type": "contao-bundle",
   "keywords": [
@@ -17,10 +17,6 @@
   },
   "license": "MIT",
   "authors": [
-    {
-      "name": "Florian Over",
-      "email": "florian.over@pppl.io"
-    },
     {
       "name": "Tobias Duehr",
       "email": "tobias@dieschittigs.de"

@@ -7,13 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use DieSchittigs\ContaoContentApiBundle\File;
 use DieSchittigs\ContaoContentApiBundle\ApiModule;
-use DieSchittigs\ContaoContentApiBundle\ApiSearchResult;
-use DieSchittigs\ContaoContentApiBundle\ApiLayout;
-use DieSchittigs\ContaoContentApiBundle\ApiTheme;
-use DieSchittigs\ContaoContentApiBundle\ApiNewsArchive;
-use DieSchittigs\ContaoContentApiBundle\ApiNews;
-use DieSchittigs\ContaoContentApiBundle\ApiStyle;
-use DieSchittigs\ContaoContentApiBundle\ApiStyleSheet;
 use DieSchittigs\ContaoContentApiBundle\ContentApiResponse;
 use DieSchittigs\ContaoContentApiBundle\Sitemap;
 use DieSchittigs\ContaoContentApiBundle\SitemapFlat;
@@ -187,9 +180,7 @@ class ContentApiController extends Controller
         $request = $this->init($request);
 
         return new ContentApiResponse(
-            File::get($request->query->get('path', 'files'), $request->query->get('depth', 0)),
-            200,
-            $this->headers
+            File::get($request->query->get('path', 'files'), $request->query->get('depth', 0)), 200, $this->headers
         );
     }
 
@@ -205,182 +196,6 @@ class ContentApiController extends Controller
         $request = $this->init($request);
 
         return new ContentApiResponse(new ApiModule($request->query->get('id', 0)), 200, $this->headers);
-    }
-
-    /**
-     * @return Response
-     *
-     * @Route("/search", name="content_api_search")
-     *
-     * @param Request $request Current request
-     */
-    public function searchAction(Request $request)
-    {
-        $request = $this->init($request);
-        return new ContentApiResponse(new ApiSearchResult(
-            $request->query->get('keywords', ""),
-            $request->query->get('query_type', "and"),
-            $request->query->get('root', null),
-            $request->query->get('per_page', 20),
-            $request->query->get('page', 1),
-            $request->query->get('fuzzy', true)
-        ), 200, $this->headers);
-    }
-
-    /**
-     * @return Response
-     *
-     * @Route("/newsarchives", name="content_api_newssarchives")
-     *
-     * @param Request $request Current request
-     */
-    public function newsarchivesAction(Request $request)
-    {
-        $request = $this->init($request);
-        return new ContentApiResponse(ApiNewsArchive::listAction($request->query->get('pid', null)), 200, $this->headers);
-    }
-
-    /**
-     * @return Response
-     *
-     * @Route("/newsarchive", name="content_api_newssarchive")
-     *
-     * @param Request $request Current request
-     */
-    public function newsarchiveAction(Request $request)
-    {
-        $request = $this->init($request);
-        return new ContentApiResponse(new ApiNewsArchive($request->query->get('id', null)), 200, $this->headers);
-    }
-
-    /**
-     * @return Response
-     *
-     * @Route("/news", name="content_api_news")
-     *
-     * @param Request $request Current request
-     */
-    public function newsAction(Request $request)
-    {
-        $request = $this->init($request);
-        return new ContentApiResponse(ApiNews::listAction($request->query->get('pid', null)), 200, $this->headers);
-    }
-
-    /**
-     * @return Response
-     *
-     * @Route("/new", name="content_api_new")
-     *
-     * @param Request $request Current request
-     */
-    public function newAction(Request $request)
-    {
-        $request = $this->init($request);
-        return new ContentApiResponse(new ApiNews($request->query->get('id', null)), 200, $this->headers);
-    }
-
-    /**
-     * @return Response
-     *
-     * @Route("/layout", name="content_api_layout")
-     *
-     * @param Request $request Current request
-     */
-    public function layoutAction(Request $request)
-    {
-        $request = $this->init($request);
-        return new ContentApiResponse(new ApiLayout($request->query->get('id', 0)), 200, $this->headers);
-    }
-
-    /**
-     * @return Response
-     *
-     * @Route("/layouts", name="content_api_layouts")
-     *
-     * @param Request $request Current request
-     */
-    public function layoutsAction(Request $request)
-    {
-        $request = $this->init($request);
-        return new ContentApiResponse(ApiLayout::listAction($request->query->get('pid', 0)), 200, $this->headers);
-    }
-
-    /**
-     * @return Response
-     *
-     * @Route("/theme", name="content_api_theme")
-     *
-     * @param Request $request Current request
-     */
-    public function themeAction(Request $request)
-    {
-        $request = $this->init($request);
-        return new ContentApiResponse(new ApiTheme($request->query->get('id', 0)), 200, $this->headers);
-    }
-
-    /**
-     * @return Response
-     *
-     * @Route("/themes", name="content_api_themes")
-     *
-     * @param Request $request Current request
-     */
-    public function themesAction(Request $request)
-    {
-        $request = $this->init($request);
-        return new ContentApiResponse(ApiTheme::listAction(), 200, $this->headers);
-    }
-
-    /**
-     * @return Response
-     *
-     * @Route("/stylesheet", name="content_api_stylesheet")
-     *
-     * @param Request $request Current request
-     */
-    public function styleSheetAction(Request $request)
-    {
-        $request = $this->init($request);
-        return new ContentApiResponse(new ApiStyleSheet($request->query->get('id', 0)), 200, $this->headers);
-    }
-
-    /**
-     * @return Response
-     *
-     * @Route("/stylesheets", name="content_api_stylesheets")
-     *
-     * @param Request $request Current request
-     */
-    public function styleSheetsAction(Request $request)
-    {
-        $request = $this->init($request);
-        return new ContentApiResponse(ApiStyleSheet::listAction($request->query->get('pid', 0)), 200, $this->headers);
-    }
-
-    /**
-     * @return Response
-     *
-     * @Route("/style", name="content_api_style")
-     *
-     * @param Request $request Current request
-     */
-    public function styleAction(Request $request)
-    {
-        $request = $this->init($request);
-        return new ContentApiResponse(new ApiStyle($request->query->get('id', 0)), 200, $this->headers);
-    }
-
-    /**
-     * @return Response
-     *
-     * @Route("/styles", name="content_api_styles")
-     *
-     * @param Request $request Current request
-     */
-    public function stylesAction(Request $request)
-    {
-        $request = $this->init($request);
-        return new ContentApiResponse(ApiStyle::listAction($request->query->get('pid', 0)), 200, $this->headers);
     }
 
     /**
@@ -411,7 +226,7 @@ class ContentApiController extends Controller
         $request = $this->init($request);
         $readers = $this->getParameter('content_api_readers');
         if (!$readers[$reader]) {
-            return new ContentApiResponse('Reader "' . $reader . '" not available' . $url, 404);
+            return new ContentApiResponse('Reader "'.$reader.'" not available'.$url, 404);
         }
         $url = $request->query->get('url', '/');
         $page = Page::findByUrl($url, false);
@@ -420,7 +235,7 @@ class ContentApiController extends Controller
             $readerArticle = (new Reader($readers[$reader], $url))->toJson();
         }
         if (!$readerArticle) {
-            return new ContentApiResponse('No reader found at URL ' . $url, 404);
+            return new ContentApiResponse('No reader found at URL '.$url, 404);
         }
 
         return new ContentApiResponse($readerArticle, 200, $this->headers);
@@ -459,7 +274,7 @@ class ContentApiController extends Controller
             }
         }
         if (!$readerFound && !$exactMatch) {
-            return new ContentApiResponse('No page and reader found at URL ' . $url, 404);
+            return new ContentApiResponse('No page and reader found at URL '.$url, 404);
         }
 
         return new ContentApiResponse($response, 200, $this->headers);
